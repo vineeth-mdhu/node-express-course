@@ -2,13 +2,31 @@ const express=require('express');
 const bodyParser=require('body-parser');
 const app=express();
 
+app.use(bodyParser.json());
 
 const mockUserData=[
     {name:'Mark'},
     {name:'Jill'}
 ]
 
-app.use(bodyParser.json);
+
+
+app.get('/users',function(req,res){
+	res.json({
+		success: true,
+		message: 'successfully got users. Nice!',
+		users: mockUserData
+	})
+})
+
+app.get('/users/:id',(req,res)=>{
+    console.log(req.params.id)
+    res.json({
+        success:true,
+        message:'successfully got the page.',
+        users:req.params.id
+    })
+})
 
 app.post('/login',(req,res)=>{
     const username=req.body.username;
@@ -31,23 +49,6 @@ app.post('/login',(req,res)=>{
     }
 })
 
-app.get('/users',function(req,res){
-	res.json({
-		success: true,
-		message: 'successfully got users. Nice!',
-		users: mockUserData
-	})
-})
-
-app.get('/users/:id',(req,res)=>{
-    console.log(req.params.id)
-    res.json({
-        success:true,
-        message:'successfully got the page.',
-        users:req.params.id
-    })
-})
-
-app.listen(8000,()=>{
+app.listen(5000,()=>{
     console.log("server is running")
 });
